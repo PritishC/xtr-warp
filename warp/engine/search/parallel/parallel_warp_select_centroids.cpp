@@ -73,7 +73,8 @@ parallel_warp_select_centroids(torch::Tensor centroid_idx,
                 //      This would use the last (available) centroid score.
                 assert(!(cumsum < t_prime && idx >= bound));
             }
-            mse_ptr[i] = cscores_qidx_ptr[thread_centroid_idx[idx - 1]];
+            mse_ptr[i] = (idx == 0) ? 0
+                                    : cscores_qidx_ptr[thread_centroid_idx[idx - 1]];
         }
     });
 

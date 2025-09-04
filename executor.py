@@ -1,10 +1,10 @@
 import argparse
 import psutil
 
-from utility.executor_utils import load_configuration, execute_configs, spawn_and_execute, check_execution
-from utility.runner_utils import make_run_config
+from xtr_utility.executor_utils import load_configuration, execute_configs, spawn_and_execute, check_execution
+from xtr_utility.runner_utils import make_run_config
 
-from utility.index_sizes import safe_index_size, bytes_to_gib
+from xtr_utility.index_sizes import safe_index_size, bytes_to_gib
 
 def index_size(config, params):
     assert len(params) == 0

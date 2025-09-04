@@ -8,7 +8,7 @@ from collections import defaultdict
 from dataclasses import dataclass, fields
 from warp.utils.utils import timestamp, torch_load_dnn
 
-from utility.utils.save_metadata import get_metadata_only
+from xtr_utility.utils.save_metadata import get_metadata_only
 
 
 @dataclass

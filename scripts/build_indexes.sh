@@ -6,7 +6,7 @@ set +o allexport
 # Prepare the BEIR datasets for evaluation
 BEIR=("nfcorpus" "scifact" "scidocs" "fiqa" "webis-touche2020" "quora")
 for dataset in "${BEIR[@]}"; do
-    python utility/extract_collection.py -d ${dataset} -i "${BEIR_COLLECTION_PATH}" -s test
+    python xtr_utility/extract_collection.py -d ${dataset} -i "${BEIR_COLLECTION_PATH}" -s test
 done
 
 # Build Indexes for BEIR/test (nbits=4)

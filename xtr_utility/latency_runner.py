@@ -4,7 +4,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 import psutil
 
-from utility.executor_utils import read_subprocess_inputs, publish_subprocess_results
+from xtr_utility.executor_utils import read_subprocess_inputs, publish_subprocess_results
 
 if __name__ == "__main__":
     config, params = read_subprocess_inputs()
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     import torch
     torch.set_num_threads(num_threads)
 
-    from utility.runner_utils import make_run_config
+    from xtr_utility.runner_utils import make_run_config
 
     from warp.engine.searcher import WARPSearcher
     from warp.data.queries import WARPQueries

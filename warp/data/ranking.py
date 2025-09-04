@@ -11,7 +11,7 @@ from warp.infra.run import Run
 from warp.utils.utils import print_message, groupby_first_item
 from warp.data.queries import WARPQRels
 
-from utility.utils.save_metadata import get_metadata_only
+from xtr_utility.utils.save_metadata import get_metadata_only
 
 def numericize(v):
     if '.' in v:

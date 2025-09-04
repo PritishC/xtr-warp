@@ -1,4 +1,5 @@
 import torch
+from tqdm import tqdm
 
 from warp.infra.run import Run
 from warp.utils.utils import print_message, batch
@@ -16,13 +17,16 @@ class CollectionEncoder():
         if len(passages) == 0:
             return None, None
 
+        num_batches = int(len(passages) / (self.config.index_bsize * 50))
+
         with torch.inference_mode():
             embs, doclens = [], []
 
             # Batch here to avoid OOM from storing intermediate embeddings on GPU.
             # Storing on the GPU helps with speed of masking, etc.
             # But ideally this batching happens internally inside docFromText.
-            for passages_batch in batch(passages, self.config.index_bsize * 50):
+            for passages_batch in tqdm(batch(passages, self.config.index_bsize * 50), desc="Passage batching",
+                                       total=num_batches):
                 embs_, doclens_ = self.checkpoint.docFromText(passages_batch, bsize=self.config.index_bsize,
                                                               keep_dims='flatten', showprogress=(not self.use_gpu))
                 embs.append(embs_)

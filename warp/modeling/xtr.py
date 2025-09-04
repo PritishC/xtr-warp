@@ -1,4 +1,5 @@
 import torch
+from tqdm import tqdm
 
 from transformers import AutoTokenizer, AutoModel, logging
 from huggingface_hub import hf_hub_download
@@ -89,7 +90,7 @@ class XTRCheckpoint:
 
         batch_lengths = [torch.sum(attention_mask, dim=1) for _, attention_mask in text_batches]
         batches = [self.xtr(input_ids.to(DEVICE), attention_mask.to(DEVICE))
-                   for input_ids, attention_mask in text_batches]
+                   for input_ids, attention_mask in tqdm(text_batches, desc="XTR Embedding")]
     
         flatten_embeddings = torch.zeros((total_length, TOKEN_EMBED_DIM), dtype=torch.float32)
 

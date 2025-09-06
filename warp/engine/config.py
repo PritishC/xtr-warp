@@ -41,13 +41,21 @@ class WARPRunConfig:
     # runtime == None uses "default" PyTorch for inference.
     runtime: Optional[RuntimeConfig] = None
 
+    # Our added fields
+    index_root_: Optional[str] = None
+    index_name_: Optional[str] = None
+
     @property
     def index_root(self):
+        if self.index_root_ is not None:
+            return self.index_root_
         INDEX_ROOT = os.environ["INDEX_ROOT"]
         return INDEX_ROOT
 
     @property
     def index_name(self):
+        if self.index_name_ is not None:
+            return self.index_name_
         return f"{self.collection}-{self.dataset}.split={self.datasplit}.nbits={self.nbits}"
 
     @property

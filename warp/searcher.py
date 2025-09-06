@@ -64,7 +64,8 @@ class Searcher:
             verbose=self.verbose,
             warp_config=warp_config,
         )
-        use_gpu = self.config.total_visible_gpus > 0
+        # use_gpu = self.config.total_visible_gpus > 0
+        use_gpu = False
         if use_gpu:
             self.checkpoint = self.checkpoint.cuda()
         load_index_with_mmap = self.config.load_index_with_mmap
@@ -73,14 +74,17 @@ class Searcher:
 
         self.warp_engine = warp_engine
         if warp_engine:
-            if torch.get_num_threads() == 1:
-                self.ranker = IndexScorerWARP(
-                    self.index, self.config, use_gpu, load_index_with_mmap, t_prime=warp_config.t_prime, bound=warp_config.bound
-                )
-            else:
-                self.ranker = ParallelIndexScorerWARP(
-                    self.index, self.config, use_gpu, load_index_with_mmap, t_prime=warp_config.t_prime, bound=warp_config.bound, fused_decompression_merge=warp_config.fused_ext
-                )
+            # if torch.get_num_threads() == 1:
+            #     self.ranker = IndexScorerWARP(
+            #         self.index, self.config, use_gpu, load_index_with_mmap, t_prime=warp_config.t_prime, bound=warp_config.bound
+            #     )
+            # else:
+            #     self.ranker = ParallelIndexScorerWARP(
+            #         self.index, self.config, use_gpu, load_index_with_mmap, t_prime=warp_config.t_prime, bound=warp_config.bound, fused_decompression_merge=warp_config.fused_ext
+            #     )
+            self.ranker = IndexScorerWARP(
+                self.index, self.config, use_gpu, load_index_with_mmap, t_prime=warp_config.t_prime, bound=warp_config.bound
+            )
         else:
             self.ranker = IndexScorer(self.index, use_gpu, load_index_with_mmap)
 
@@ -149,7 +153,7 @@ class Searcher:
                     )
                 )
             )
-            for query_idx, qid in tqdm(enumerate(qids), disable=not show_progress)
+            for query_idx, qid in enumerate(tqdm(qids, disable=not show_progress))
         ]
 
         data = {qid: val for qid, val in zip(queries.keys(), all_scored_pids)}
